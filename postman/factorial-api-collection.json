@@ -1,0 +1,135 @@
+{
+  "info": {
+    "_postman_id": "f84b9c42-8c3d-4e99-b8f7-12345678abcd",
+    "name": "Factorial API",
+    "description": "Collection for testing the Factorial API Server",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Root Endpoint",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": ["{{baseUrl}}"],
+          "path": [""]
+        },
+        "description": "Get API information and available endpoints"
+      },
+      "response": []
+    },
+    {
+      "name": "API Documentation",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/docs",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "docs"]
+        },
+        "description": "Get API documentation"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Success",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "5"]
+        },
+        "description": "Calculate factorial of 5 (should return 120)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Zero",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/0",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "0"]
+        },
+        "description": "Calculate factorial of 0 (should return 1)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Large Number",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/50",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "50"]
+        },
+        "description": "Calculate factorial of a larger number (50)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Invalid Input (Text)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/abc",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "abc"]
+        },
+        "description": "Try to calculate factorial of a text value (should return 400 error)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Invalid Input (Negative)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/-5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "-5"]
+        },
+        "description": "Try to calculate factorial of a negative number (should return 400 error)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Invalid Input (Decimal)",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/3.5",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "3.5"]
+        },
+        "description": "Try to calculate factorial of a decimal number (should return 400 error)"
+      },
+      "response": []
+    },
+    {
+      "name": "Calculate Factorial - Too Large",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/factorial/200",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "factorial", "200"]
+        },
+        "description": "Try to calculate factorial of a number that's too large (should return 413 error)"
+      },
+      "response": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
