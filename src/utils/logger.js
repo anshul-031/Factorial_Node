@@ -9,43 +9,49 @@ const logFormat = winston.format.combine(
 );
 
 // Create logger
-export const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: logFormat,
-  defaultMeta: { service: 'factorial-api' },
-  transports: [
-    // Console transport for all logs
-    new winston.transports.Console({
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.printf(({ level, message, timestamp, requestId, ...metadata }) => {
-          let metaStr = '';
-          if (Object.keys(metadata).length > 0) {
-            if (metadata.service) {
-              delete metadata.service;
-            }
-            if (Object.keys(metadata).length > 0) {
-              metaStr = JSON.stringify(metadata);
-            }
+const transports = [
+  // Console transport for all logs
+  new winston.transports.Console({
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.printf(({ level, message, timestamp, requestId, ...metadata }) => {
+        let metaStr = '';
+        if (Object.keys(metadata).length > 0) {
+          if (metadata.service) {
+            delete metadata.service;
           }
-          return `${timestamp} [${level}]${requestId ? ` [${requestId}]` : ''}: ${message} ${metaStr}`;
-        })
-      )
-    }),
-    // File transport for errors
-    new winston.transports.File({ 
-      filename: 'logs/error.log', 
+          if (Object.keys(metadata).length > 0) {
+            metaStr = JSON.stringify(metadata);
+          }
+        }
+        return `${timestamp} [${level}]${requestId ? ` [${requestId}]` : ''}: ${message} ${metaStr}`;
+      })
+    )
+  })
+];
+
+// Add file transports only if not in production
+if (process.env.NODE_ENV !== 'production') {
+  transports.push(
+    new winston.transports.File({
+      filename: 'logs/error.log',
       level: 'error',
       maxsize: 10485760, // 10MB
       maxFiles: 5
     }),
-    // File transport for all logs
-    new winston.transports.File({ 
+    new winston.transports.File({
       filename: 'logs/combined.log',
       maxsize: 10485760, // 10MB
       maxFiles: 5
     })
-  ]
+  );
+}
+
+export const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: logFormat,
+  defaultMeta: { service: 'factorial-api' },
+  transports: transports
 });
 
 // Create a stream object for Morgan
